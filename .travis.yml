@@ -1,10 +1,11 @@
+arch:
+  - amd64
+  - ppc64le
 language: java
 
 dist: trusty
 
 jdk:
-  - oraclejdk8
-  - oraclejdk9
   - openjdk11
   - openjdk12
   - openjdk13
@@ -18,12 +19,28 @@ matrix:
         # https://github.com/travis-ci/travis-ci/issues/9368#issuecomment-395354755
         - rm "${JAVA_HOME}/lib/security/cacerts"
         - ln -s /etc/ssl/certs/java/cacerts "${JAVA_HOME}/lib/security/cacerts"
+      arch: amd64 
     - jdk: openjdk15
       script:
         # default Maven command
         - mvn test -B
         # also test Javadoc generation
         - mvn -P '!examples' javadoc:aggregate
+      arch: amd64
+      - jdk: openjdk10
+      before_install:
+        # https://github.com/travis-ci/travis-ci/issues/9368#issuecomment-395354755
+        - rm "${JAVA_HOME}/lib/security/cacerts"
+        - ln -s /etc/ssl/certs/java/cacerts "${JAVA_HOME}/lib/security/cacerts"
+      arch: ppc64le
+    - jdk: openjdk15
+      script:
+        # default Maven command
+        - mvn test -B
+        # also test Javadoc generation
+        - mvn -P '!examples' javadoc:aggregate
+      arch: ppc64le  
+    
   allow_failures:
     - jdk: openjdk-ea
 

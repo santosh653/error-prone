@@ -28,7 +28,7 @@ matrix:
         # also test Javadoc generation
         - mvn -P '!examples' javadoc:aggregate
       arch: amd64
-      - jdk: openjdk10
+    - jdk: openjdk10
       before_install:
         # https://github.com/travis-ci/travis-ci/issues/9368#issuecomment-395354755
         - rm "${JAVA_HOME}/lib/security/cacerts"
